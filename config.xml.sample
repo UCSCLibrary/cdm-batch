@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdmbatch>
+    <production>
+
+		<!-- web address of your contentdm instance (w/o http://) -->
+        <webhost>servernumber.contentdm.oclc.org</webhost>
+        
+        <!-- user configured in worldcat.org and contentdm web admin -->
+        <user>username_here</user>
+        <password>password_here</password>
+
+        <!-- log is in the default directory unless placed elsewhere -->
+        <!-- if placed elsewhere, you may need to update .htaccess file -->
+        <logfile>cdm-batch.log</logfile>
+
+        <!-- a default collection to use in case another isn't supplied -->
+        <defColl>/p16019coll2</defColl>
+        
+        <!-- Maximum number of bytes allowed for a batch file upload -->
+        <maxBatchFileSize>100000</maxBatchFileSize>
+        
+        <!-- How many characters are allowed in an update field -->
+        <maxSizeOfUpdateField>1024</maxSizeOfUpdateField>
+    </production>
+</cdmbatch>

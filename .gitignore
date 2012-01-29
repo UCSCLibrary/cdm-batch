@@ -1,0 +1,9 @@
+/config.xml
+/.buildpath
+/.project
+/.settings
+/.htaccess
+/*.log
+/batch_files/*.csv
+/old_batch_files/*.csv
+/export.xml
