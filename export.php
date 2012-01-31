@@ -17,20 +17,13 @@ function setPostParameters($http, $htmlForm) {
 	$xml = simplexml_import_dom($doc);
 	$http->resetParameters(true);
 	
-	$xml->registerXPathNamespace('html', 'http://www.w3.org/1999/xhtml');
-	echo $doc->saveXML();
-	
 	// Just use the CDM name as the field name; we'll map in the XSLT
-	foreach ($xml->xpath('//html:input') as $input) {
+	foreach ($xml->xpath('//input') as $input) {
 		$name = (string) $input->attributes()->name;
-		
-		if (!strcmp($name, 'CISODB') && !strcmp($name, 'CISOTYPE')
-		&& !strcmp($name, 'CISOPTRLIST') && !strcmp($name, 'CISOPAGE')) {
+
+		if (strcmp($name, 'CISODB') != 0 && strcmp($name, 'CISOTYPE') != 0
+		&& strcmp($name, 'CISOPTRLIST') != 0 && strcmp($name, 'CISOPAGE') != 0) {
 			$http->setParameterPost($name, $name);
-			echo '<div>' . $name . ' = ' . $name . '</div>';
-		}
-		else {
-			echo '<div>' . $name . ' =| ' . $name . '</div>';
 		}
 	}
 	
@@ -70,7 +63,8 @@ if (!empty($collId)) {
 			$http->setUri($fileURL . $collId . '/index/description/export.xml');
 			
 			if ($http->request(Zend_Http_Client::GET)->isSuccessful()) {
-				echo 'successful!';
+				$xml = simplexml_load_file('export.xml');
+				$db = simplexml_load_file('export.db');
 			}
 			else echo 'dead';
 		}
@@ -86,6 +80,3 @@ if (!empty($collId)) {
 else {
 	echo '<div>Error: Request is missing the collId parameter.</div>';
 }
-
-
-// http://localhost/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE=/p265101coll24/index/description/export.xml
