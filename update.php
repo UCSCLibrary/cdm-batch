@@ -25,7 +25,7 @@ function reindex($http, $url) {
 	$response = $http->request(Zend_Http_Client::GET);
 
 	if (!($http->request(Zend_Http_Client::GET)->isSuccessful())) {
-		throw new Zend_Http_Client_Exception("Reindexing failed!");
+		throw new Exception("Reindexing failed!");
 	}
 	
 	echo '<div>Reindexed: ' . $url . '</div>';
@@ -41,7 +41,7 @@ function update($http, $url, $data, $config) {
 	$http->setUri($url . $data[0]);
 	$response = $http->request(Zend_Http_Client::GET);
 	
-	echo '<div>' . $url . $data[0] . '</div>';
+	echo '<div>' . $url . $data[0] . ' ' . $data[1] . ' ' . $data[2] . '</div>';
 	
 	if ($response->isSuccessful()) {
 		$doc = new DOMDocument();
@@ -63,8 +63,9 @@ function update($http, $url, $data, $config) {
 				$value = (string) $input->attributes()->value;
 
 				// data[1] is field to be replaced; data[2] is the new value
-				if (strcmp(mb_strtolower($name), mb_strtolower($data[1]))) {
+				if (strcasecmp($name, $data[1]) == 0) {
 					$http->setParameterPost($name, $data[2]);
+					echo '<div>' . $name . ' = ' . $data[2] . '</div>';
 				}
 				else {
 					$http->setParameterPost($name, $value);
@@ -72,17 +73,20 @@ function update($http, $url, $data, $config) {
 			}
 				
 			if (!($http->request(Zend_Http_Client::POST)->isSuccessful())) {
-				echo new Zend_Http_Client_Exception('Update failed!'); 
+				echo new Exception('Update failed!'); 
+			}
+			else {
+				echo "Success!";
 			}
 		}
 		else {
 			echo $xml->asXML();
-			throw new Zend_Http_Client_Exception('Wrong number of forms on page');
+			throw new Exception('Wrong number of forms on page');
 		}
 	
 	}
 	else {
-		throw new Zend_Http_Client_Exception('Unable to read response');
+		throw new Exception('Unable to read response');
 	}
 }
 
@@ -113,7 +117,7 @@ try {
 		$url = str_replace('%COL_ID%', $collId, $url);
 	}
 	else {
-		throw new Zend_Http_Client_Exception('No batch file specified');
+		throw new Exception('No batch file specified');
 	}
 	
 	$http = new Zend_Http_Client();
@@ -137,7 +141,7 @@ try {
 	fclose($file_handle);
 	reindex($http, $reindex_url);
 }
-catch (Zend_Http_Client_Exception $details) {
+catch (Exception $details) {
 	echo '<p>An error occurred (' . $details->getMessage() . ')</p>';
 	echo '<p>' . $details->getTraceAsString() . '</p>';
 }

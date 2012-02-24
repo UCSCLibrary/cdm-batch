@@ -1,4 +1,4 @@
-/config.xml
+/*.xml
 /.buildpath
 /.project
 /.settings
@@ -6,4 +6,3 @@
 /*.log
 /batch_files/*.csv
 /old_batch_files/*.csv
-/export.xml

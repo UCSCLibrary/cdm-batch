@@ -33,11 +33,21 @@ function setPostParameters($http, $htmlForm) {
 	$http->setParameterPost('CISOPTRLIST', '');
 }
 
+function __autoload($class) {
+	include('batch_jobs/' . $class . '.php');
+
+	// Check to see whether the include declared the class
+	if (!class_exists($class, false)) {
+		trigger_error("Unable to load class: $class", E_USER_WARNING);
+	}
+}
+
 $config = new Zend_Config_Xml('config.xml', 'production');
 $host = 'https://' . $config->webhost;
 $getURL = $host . '/cgi-bin/admin/exportxmlh2.exe?CISOTYPE=standard&CISODB=';
 $postURL = $host . '/cgi-bin/admin/exportxml.exe';
 $fileURL = $host . '/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE=';
+$job = isset($_GET['job']) ? '-' . $_GET['job'] : '';
 $collId = $_GET['collId'];
 
 $writer = new Zend_Log_Writer_Stream($config->logfile);
@@ -58,13 +68,29 @@ if (!empty($collId)) {
 		$response = $http->request(Zend_Http_Client::POST);
 
 		if ($response->isSuccessful()) {
-			$http->setStream('export.xml');
+			$export = substr($collId, 1) . $job;
+			$http->setStream($export . '.xml');
 			$http->resetParameters();
 			$http->setUri($fileURL . $collId . '/index/description/export.xml');
 			
 			if ($http->request(Zend_Http_Client::GET)->isSuccessful()) {
-				$xml = simplexml_load_file('export.xml');
-				$db = simplexml_load_file('export.db');
+				$download = $export . '.xml';
+				$xml = simplexml_load_file($download);
+				
+				if (class_exists('ARKAssigner')) {
+					$file = 'batch_files/' . $export . '.csv';
+					$fHandle = fopen($file, 'w+') or die("Can't open " . $file);
+					$assigner = new ARKAssigner($xml);
+					$assigner->assign_arks($fHandle);
+					fclose($fHandle);
+
+					header('Location: upload.php?collId=' . $export);
+				}
+				else if (class_exists('second_batch')) {
+					
+				}
+				
+				unlink($download);
 			}
 			else echo 'dead';
 		}
