@@ -95,7 +95,9 @@ if (!empty($collId)) {
 			else echo 'dead';
 		}
 		else if ($response->isError()) {
-  			echo $response->getStatus() . " " . $response->getMessage();
+			$status = $response->getStatus();
+			$message = $response->getMessage();
+  			echo 'CONTENTdm: ' . $status . " " . $message;
 		}
 		else echo 'not successful';
 	}

@@ -1,12 +1,19 @@
-php_value max_execution_time 2000
+php_value max_execution_time 6000
+
+order deny,allow
+Allow from all
+
+AuthType Basic
+AuthName "contentdm"
+AuthUserFile /path/to/.htpasswd
+Require valid-user
+DirectoryIndex index.php
 
 RewriteEngine On
 RewriteRule ^(.*/)?\.git+ - [F,L]
-RewriteRule ^.*batch_files/$ - [F,L]
 ErrorDocument 403 "Access Forbidden"
 
 <FilesMatch "^(config\.xml|cdm-batch\.log)$">
  Order Allow,Deny
  Deny from all
 </FilesMatch>
-
