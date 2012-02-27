@@ -80,17 +80,17 @@ function update($http, $url, $data, $config) {
 				// data[1] is field to be replaced; data[2] is the new value
 				if (strcasecmp($name, $data[1]) == 0) {
 					$http->setParameterPost($name, $data[2]);
-					echo '<div>' . $name . ' = ' . $data[2] . '</div>';
+					//echo '<div>' . $name . ' = ' . $data[2] . '</div>';
 				}
 				else {
-					echo '<div>' . $name . ' = ' . $value . '</div>';
+					//echo '<div>' . $name . ' = ' . $value . '</div>';
 					$http->setParameterPost($name, $value);
 				}
 			}
 			
 			$response = $http->request(Zend_Http_Client::POST);
 			if ($response->isSuccessful()) {
-				echo $response->getBody();
+				//echo $response->getBody();
 				echo "Success!";
 			}
 			else {
