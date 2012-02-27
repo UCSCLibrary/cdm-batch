@@ -1,4 +1,7 @@
-php_value max_execution_time 6000
+php_value max_execution_time 0
+php_value max_input_time 0
+php_value memory_limit -1
+php_value date.timezone "America/Los_Angeles"
 
 order deny,allow
 Allow from all

@@ -68,15 +68,33 @@ function update($http, $url, $data, $config) {
 					echo '<div>' . $name . ' = ' . $data[2] . '</div>';
 				}
 				else {
+					echo '<div>' . $name . ' = ' . $value . '</div>';
 					$http->setParameterPost($name, $value);
 				}
 			}
+			
+			foreach ($xml->xpath('//textarea') as $textarea) {
+				$name = (string) $textarea->attributes()->name;
+				$value = (string) $textarea;
 				
-			if (!($http->request(Zend_Http_Client::POST)->isSuccessful())) {
-				echo new Exception('Update failed!'); 
+				// data[1] is field to be replaced; data[2] is the new value
+				if (strcasecmp($name, $data[1]) == 0) {
+					$http->setParameterPost($name, $data[2]);
+					echo '<div>' . $name . ' = ' . $data[2] . '</div>';
+				}
+				else {
+					echo '<div>' . $name . ' = ' . $value . '</div>';
+					$http->setParameterPost($name, $value);
+				}
+			}
+			
+			$response = $http->request(Zend_Http_Client::POST);
+			if ($response->isSuccessful()) {
+				echo $response->getBody();
+				echo "Success!";
 			}
 			else {
-				echo "Success!";
+				echo new Exception('Update failed!');
 			}
 		}
 		else {
