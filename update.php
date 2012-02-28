@@ -95,7 +95,7 @@ function update($http, $url, $data, $config) {
 		else {
 			$fHandle = fopen('batch_files' . $data[1] . '.csv', "a");
 			fputcsv($fHandle, $data);
-			fclose($Handle);
+			fclose($fHandle);
 			throw new Exception('Wrong number of forms on page');
 		}
 	
