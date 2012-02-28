@@ -49,6 +49,7 @@ $postURL = $host . '/cgi-bin/admin/exportxml.exe';
 $fileURL = $host . '/cgi-bin/admin/getfile.exe?CISOMODE=1&CISOFILE=';
 $job = isset($_GET['job']) ? '-' . $_GET['job'] : '';
 $collId = $_GET['collId'];
+$process = $_GET['process'];
 
 $writer = new Zend_Log_Writer_Stream($config->logfile);
 Zend_Registry::set('logger', new Zend_Log($writer));
@@ -77,7 +78,8 @@ if (!empty($collId)) {
 				$download = $export . '.xml';
 				$xml = simplexml_load_file($download);
 				
-				if (class_exists('ARKAssigner')) {
+				if (class_exists('ARKAssigner')
+						&& strcasecmp($process, 'arkassigner') == 0) {
 					$file = 'batch_files/' . $export . '.csv';
 					$fHandle = fopen($file, 'w+') or die("Can't open " . $file);
 					$assigner = new ARKAssigner($xml);
@@ -86,8 +88,18 @@ if (!empty($collId)) {
 
 					header('Location: upload.php?collId=' . $export);
 				}
-				else if (class_exists('second_batch')) {
+				else if (class_exists('CSVConverter')
+						&& strcasecmp($process, 'csvconverter') == 0) {
+					$file = 'batch_files/' . $export . '-dump.csv';
+					$fHandle = fopen($file, 'w+') or die("Can't open " . $file);
+					$converter = new CSVConverter($xml);
+					$converter->convert($fHandle);
+					fclose($fHandle);
 					
+					echo 'done!';
+				}
+				else {
+					echo 'No batch job supplied';
 				}
 				
 				unlink($download);
