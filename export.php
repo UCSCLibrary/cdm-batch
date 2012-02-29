@@ -102,6 +102,9 @@ if (!empty($collId)) {
 				if (strcasecmp($process, 'export') != 0) {
 					unlink($download);
 				}
+				else {
+					echo 'done!';
+				}
 			}
 			else echo 'dead';
 		}
