@@ -98,11 +98,10 @@ if (!empty($collId)) {
 					
 					echo 'done!';
 				}
-				else {
-					echo 'No batch job supplied';
-				}
 				
-				unlink($download);
+				if (strcasecmp($process, 'export') != 0) {
+					unlink($download);
+				}
 			}
 			else echo 'dead';
 		}
