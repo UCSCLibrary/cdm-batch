@@ -108,7 +108,7 @@ span {
 				}
 			}
 			else {
-				echo '<div>Invalid file.</div>';
+				echo '<div>Invalid file: ' . $_FILES["batchfile"]["size"] . ' ' . $_FILES["batchfile"]["type"] . '</div>';
 			}
 
 			break;
