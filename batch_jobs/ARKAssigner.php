@@ -78,12 +78,14 @@ class ARKAssigner {
 		
 		foreach ($this->xml->xpath('/metadata/record') as $record) {
 			if ((string) $record->ark == '') {
+				$cdmURL = (string) $record->viewerURL;
 				$creator = (string) $record->creato;
 				$title = (string) $record->title;
 				$id = (string) $record->cdmid;
 				
 				// Everything should have a title and CDM ID
 				$metadata = array(
+					array('_target', $cdmURL),
 					array('dc.title', $title),
 					array('dc.identifier', $id)
 				);
