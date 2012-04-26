@@ -29,6 +29,18 @@ information about how to configure the script).
 
 
 ================================================================================
+USE
+================================================================================
+
+To assign ARKs to a CONTENTdm collection, start with:
+
+http://<server>/cdm-batch/export.php?collId=/<collectionId>&process=arkassigner
+
+This will assign ARKs to all CONTENTdm records without an ARK already.  It's
+result will be a CSV file that can then be uploaded to the cdm-batch uploader.
+
+
+================================================================================
 COPYRIGHT AND LICENSE
 ================================================================================
 
