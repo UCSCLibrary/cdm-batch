@@ -83,7 +83,7 @@ if (!empty($collId)) {
 					$file = 'batch_files/' . $export . '.csv';
 					$fHandle = fopen($file, 'w+') or die("Can't open " . $file);
 
-					if (isset($_GET['shoulder']) {
+					if (isset($_GET['shoulder'])) {
 						$assigner = new ARKAssigner($xml, $_GET['shoulder']);
 					}
 					else {
