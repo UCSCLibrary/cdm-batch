@@ -157,11 +157,6 @@ span {
 	or deleted. If the file couldn't be successfully uploaded, it may be that
 	there is another one waiting to be processed.  You must delete or process
 	the queued file before uploading a new one.</div>
-	<div style="padding-top: 8px;">When a file is successfully uploaded it is
-	renamed to match the collection it is intended to update. Successfully
-	processing a file moves it into a different directory where it is saved for
-	historical purposes.  These saved batch files can be
-	<a href="review.php">reviewed</a> as needed.</div>
 	<?php } else { echo 'No file uploaded.'; } ?>
 </body>
 </html>

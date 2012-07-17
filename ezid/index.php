@@ -54,7 +54,7 @@ td {
 					<td>EZID ARK Shoulder:</td>
 					<td><input
 						onfocus="if (this.value=='<?php echo $shoulder; ?>') this.value = ''"
-						type="text" name="arkShoulder" value="<?php echo $shoulder; ?>" size="50" /></td>
+						type="text" name="shoulder" value="<?php echo $shoulder; ?>" size="50" /></td>
 				</tr>
 				<tr>
 					<td>CDM Collection ID:</td>
@@ -66,7 +66,7 @@ td {
 		</div>
 		<div style="text-align: center; padding-top: 20px;">
 			<input type="hidden" name="process" value="arkassigner" />
-			<input type="submit" value="Upload File" />
+			<input type="submit" value="Mint ARKS!" />
 		</div>
 	</form>
 </body>

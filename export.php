@@ -16,7 +16,7 @@ function setPostParameters($http, $htmlForm) {
 	@$doc->loadHTML($htmlForm);
 	$xml = simplexml_import_dom($doc);
 	$http->resetParameters(true);
-	
+
 	// Just use the CDM name as the field name; we'll map in the XSLT
 	foreach ($xml->xpath('//input') as $input) {
 		$name = (string) $input->attributes()->name;
@@ -26,7 +26,7 @@ function setPostParameters($http, $htmlForm) {
 			$http->setParameterPost($name, $name);
 		}
 	}
-	
+
 	$http->setParameterPost('CISODB', $_GET['collId']);
 	$http->setParameterPost('CISOTYPE', 'standard');
 	$http->setParameterPost('CISOPAGE', '0');
@@ -73,16 +73,23 @@ if (!empty($collId)) {
 			$http->setStream($export . '.xml');
 			$http->resetParameters();
 			$http->setUri($fileURL . $collId . '/index/description/export.xml');
-			
+
 			if ($http->request(Zend_Http_Client::GET)->isSuccessful()) {
 				$download = $export . '.xml';
 				$xml = simplexml_load_file($download);
-				
+
 				if (class_exists('ARKAssigner')
 						&& strcasecmp($process, 'arkassigner') == 0) {
 					$file = 'batch_files/' . $export . '.csv';
 					$fHandle = fopen($file, 'w+') or die("Can't open " . $file);
-					$assigner = new ARKAssigner($xml);
+
+					if (isset($_GET['shoulder']) {
+						$assigner = new ARKAssigner($xml, $_GET['shoulder']);
+					}
+					else {
+						$assigner = new ARKAssigner($xml);
+					}
+
 					$assigner->assign_arks($fHandle);
 					fclose($fHandle);
 
@@ -95,10 +102,10 @@ if (!empty($collId)) {
 					$converter = new CSVConverter($xml);
 					$converter->convert($fHandle);
 					fclose($fHandle);
-					
+
 					echo 'done!';
 				}
-				
+
 				if (strcasecmp($process, 'export') != 0) {
 					unlink($download);
 				}
