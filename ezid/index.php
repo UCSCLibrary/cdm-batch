@@ -53,11 +53,11 @@ td {
 					<td>EZID ARK Shoulder:</td>
 					<td><input
 						onfocus="if (this.value=='<?php echo $shoulder; ?>') this.value = ''"
-						type="text" name="collId" value="<?php echo $shoulder; ?>" /></td>
+						type="text" name="arkShoulder" value="<?php echo $shoulder; ?>" size="100" /></td>
 				</tr>
 				<tr>
 					<td><input type="hidden" name="MAX_FILE_SIZE" value="100000" />
-						Choose a file to upload:</td>
+						Choose a CDM export file to process:</td>
 					<td><input name="cdmfile" type="file" /></td>
 				</tr>
 			</table>
