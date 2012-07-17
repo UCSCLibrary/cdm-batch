@@ -9,6 +9,7 @@ require_once 'Zend/Registry.php';
 
 $config = new Zend_Config_Xml('../config.xml', 'production');
 $shoulder = $config->ezid->shoulder;
+$collId = $config->defColl;
 
 ?>
 
@@ -46,23 +47,25 @@ td {
 </head>
 <body>
 	<h3 class="centered">EZID ARK Assigner</h3>
-	<form enctype="multipart/form-data" action="upload.php" method="POST">
+	<form enctype="multipart/form-data" action="/cdm-batch/export.php" method="GET">
 		<div style="border: 1px solid #ccc;">
 			<table>
 				<tr>
 					<td>EZID ARK Shoulder:</td>
 					<td><input
 						onfocus="if (this.value=='<?php echo $shoulder; ?>') this.value = ''"
-						type="text" name="arkShoulder" value="<?php echo $shoulder; ?>" size="100" /></td>
+						type="text" name="arkShoulder" value="<?php echo $shoulder; ?>" size="50" /></td>
 				</tr>
 				<tr>
-					<td><input type="hidden" name="MAX_FILE_SIZE" value="100000" />
-						Choose a CDM export file to process:</td>
-					<td><input name="cdmfile" type="file" /></td>
+					<td>CDM Collection ID:</td>
+					<td><input
+						onfocus="if (this.value=='<?php echo $collId; ?>') this.value = ''"
+						type="text" name="collId" value="<?php echo $collId; ?>" size="50" /></td>
 				</tr>
 			</table>
 		</div>
 		<div style="text-align: center; padding-top: 20px;">
+			<input type="hidden" name="process" value="arkassigner" />
 			<input type="submit" value="Upload File" />
 		</div>
 	</form>
