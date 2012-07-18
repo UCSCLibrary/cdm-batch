@@ -92,7 +92,7 @@ span {
 					$uploaded = true;
 					$csvFile = "batch_files/" . getCsvFile();
 
-					echo "<div><span>Uploaded:</span> " . $_FILES["batchfile"]["name"] . "</div>";
+					echo "<div><span>Uploaded:</span> <a href='/cdm-batch/" . $_FILES["batchfile"]["name"] . "'>" . $_FILES["batchfile"]["name"] . "</a></div>";
 					echo "<div><span>Type:</span> " . $_FILES["batchfile"]["type"] . "</div>";
 					echo "<div><span>Size:</span> " . ($_FILES["batchfile"]["size"] / 1024) . " Kb</div>";
 					echo "<div><span>Temp file:</span> " . $_FILES["batchfile"]["tmp_name"] . "</div>";
@@ -118,7 +118,7 @@ span {
 			if (file_exists($fName)) {
 				$uploaded = true;
 	?>
-				<div><span>File:</span> <?php echo $fName; ?></div>
+				<div><span>File:</span> <a href="/cdm-batch/<?php echo $fName; ?>"><?php echo $fName; ?></a></div>
 				<div><span>Size:</span>
 					<?php echo round(filesize($fName) / 1024, 2);?> Kb</div>
 	<?php
